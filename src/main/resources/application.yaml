@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: web-flux-consumer1
+
+bootstrap:
+  server:
+    host: localhost:9092
+key:
+  deserializer:
+    binary: org.apache.kafka.common.serialization.StringDeserializer
+    string: org.apache.kafka.common.serialization.StringDeserializer
+value:
+  deserializer:
+    binary: org.apache.kafka.common.serialization.ByteArrayDeserializer
+    string: org.apache.kafka.common.serialization.StringDeserializer
+group:
+  id: cg-web-flux-net
+auto:
+  offset:
+    reset: earliest
+max:
+  poll:
+    records: 10
