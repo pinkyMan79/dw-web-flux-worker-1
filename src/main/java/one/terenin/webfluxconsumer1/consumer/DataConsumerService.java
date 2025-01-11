@@ -6,6 +6,7 @@ import one.terenin.webfluxconsumer1.configuration.propertysource.KafkaConfigurat
 import one.terenin.webfluxconsumer1.holder.DataHolder;
 import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
@@ -22,7 +23,13 @@ public class DataConsumerService {
     private final Sinks.Many<String> sinksJson = Sinks.many().multicast().onBackpressureBuffer();
     private final Sinks.Many<byte[]> sinksParquet = Sinks.many().multicast().onBackpressureBuffer();
 
-    @KafkaListener(topics = "jsonTopic", groupId = "cg-web-flux-net", containerFactory = "kafkaJsonListenerContainerFactory")
+    @KafkaListener(topics = "jsonTopic",
+            groupId = "cg-web-flux-net",
+            containerFactory = "kafkaJsonListenerContainerFactory",
+            topicPartitions = @TopicPartition(
+                    topic = "jsonTopic", partitions = {"0"}
+            )
+    )
     public void listenJson(String messages) {
         Sinks.EmitResult emitResult = sinksJson.tryEmitNext(messages);
         if (emitResult.isFailure()) {
@@ -30,7 +37,13 @@ public class DataConsumerService {
         }
     }
     
-    @KafkaListener(topics = "jsonTopic", groupId = "cg-web-flux-net", containerFactory = "kafkaParquetListenerContainerFactory")
+    @KafkaListener(topics = "parquetTopic",
+            groupId = "cg-web-flux-net",
+            containerFactory = "kafkaParquetListenerContainerFactory",
+            topicPartitions = @TopicPartition(
+            topic = "parquetTopic", partitions = {"0"}
+            )
+    )
     public void listenParquet(byte[] messages) {
         Sinks.EmitResult emitResult = sinksParquet.tryEmitNext(messages);
         if (emitResult.isFailure()) {
