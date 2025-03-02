@@ -10,7 +10,7 @@ public class ClientConfiguration {
     @Bean
     public WebClient webClientJson() {
         return WebClient.builder()
-                .baseUrl("http://localhost:8080/json")
+                .baseUrl("http://localhost:8082/json")
                 .exchangeStrategies(ExchangeStrategies.builder()
                         .codecs(clientCodecConfigurer -> clientCodecConfigurer
                                 .defaultCodecs()
@@ -21,7 +21,7 @@ public class ClientConfiguration {
     @Bean
     public WebClient webClientParquet() {
         return WebClient.builder()
-                .baseUrl("http://localhost:8080/parquet")
+                .baseUrl("http://localhost:8082/parquet")
                 .exchangeStrategies(ExchangeStrategies.builder()
                         .codecs(clientCodecConfigurer -> clientCodecConfigurer
                                 .defaultCodecs()

@@ -45,7 +45,7 @@ public class DataConsumerService {
             )
     )
     public void listenParquet(byte[] messages) {
-        Sinks.EmitResult emitResult = sinksParquet.tryEmitNext(messages);
+        Sinks.EmitResult emitResult = sinksParquet.tryEmitNext(messages); 
         if (emitResult.isFailure()) {
             log.warn("Can't process message parquet: {}", messages);
         }
